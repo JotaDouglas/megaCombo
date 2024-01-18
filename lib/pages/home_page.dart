@@ -13,31 +13,42 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  calcularNumeros(List valores, int atual) {
-    valores = [];
-  //gerar e adicionar os valores na lista
-  for (int valor = 0; valor < 6; valor++) {
-    atual = Random().nextInt(59);
+  List<int> valores = [];
+  int atual = 0;
+  bool vizualizarLista = true;
 
-    //teste se o valor é igual a zero ou se já existe na lista
-    while (atual == 0 && valores.contains(atual)) {
+  void calcularNumeros() {
+    setState(() {
+      valores = [];
+    });
+    //gerar e adicionar os valores na lista
+    for (int valor = 0; valor < 6; valor++) {
       atual = Random().nextInt(59);
+
+      //teste se o valor é igual a zero ou se já existe na lista
+      while (atual == 0 && valores.contains(atual)) {
+        atual = Random().nextInt(59);
+      }
+
+      valores.add(atual);
     }
-    valores.add(atual);
-  }
 
-  //ordenar a lista em ordem alfabetica
-  valores.sort((a, b) => a.compareTo(b));
+    //ordenar a lista em ordem alfabetica
+    valores.sort();
 
-  for (int i = 0; i < valores.length; i++) {
-    print(valores[i]);
+    for (int i = 0; i < valores.length; i++) {
+      print(valores[i]);
+    }
   }
-}
+  verLista(){
+    setState(() {
+      vizualizarLista = !vizualizarLista;
+    });
+    print(vizualizarLista);
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<int> valores = [];
-    int atual = 0;
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -46,8 +57,9 @@ class _HomePageState extends State<HomePage> {
         ),
         backgroundColor: Colors.grey[900],
         centerTitle: true,
+        actions: [IconButton(onPressed: () => verLista(), icon: Icon(Icons.list, color: Colors.white,))],
       ),
-      body: Column(
+      body: vizualizarLista?Column(
         children: [
           Expanded(
               flex: 1,
@@ -56,7 +68,8 @@ class _HomePageState extends State<HomePage> {
                 height: 100,
                 width: 200,
               )),
-          PaineldeNumeros(listaNumeros: valores), //trocar os dados quando forem inseridos
+          PaineldeNumeros(
+              listaNumeros: valores), //trocar os dados quando forem inseridos
           Expanded(
               flex: 1,
               child: Column(
@@ -68,7 +81,8 @@ class _HomePageState extends State<HomePage> {
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.grey[700]),
                       onPressed: () {
-                        calcularNumeros(valores, atual);
+                        calcularNumeros();
+                        print(valores);
                       },
                       child: Text(
                         'SORTEAR',
@@ -81,7 +95,7 @@ class _HomePageState extends State<HomePage> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.grey[700]),
-                      onPressed: () => calcularNumeros(valores, atual),
+                      onPressed: () => calcularNumeros(),
                       child: Text(
                         'SALVAR',
                         style: TextStyle(color: Colors.white),
@@ -91,7 +105,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               )),
         ],
-      ),
+      ):Text('Hello World'),
     );
   }
 }

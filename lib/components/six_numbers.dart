@@ -2,10 +2,15 @@
 
 import 'package:flutter/material.dart';
 
-class PaineldeNumeros extends StatelessWidget {
+class PaineldeNumeros extends StatefulWidget {
   final List<int> listaNumeros;
   const PaineldeNumeros({required this.listaNumeros, super.key});
 
+  @override
+  State<PaineldeNumeros> createState() => _PaineldeNumerosState();
+}
+
+class _PaineldeNumerosState extends State<PaineldeNumeros> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -13,48 +18,15 @@ class PaineldeNumeros extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          CircleAvatar(
+          for(int i = 0; i < 6; i++)
+            CircleAvatar(
             backgroundColor: Colors.grey[900],
             radius: 25,
-            child: Text(listaNumeros.isEmpty?'?': listaNumeros[0].toString(),
+            child: Text(widget.listaNumeros.isEmpty?'?': widget.listaNumeros[i].toString(),
               style: TextStyle(color: Colors.white),
             ),
-          ),
-          CircleAvatar(
-            backgroundColor: Colors.grey[900],
-            radius: 25,
-            child: Text(listaNumeros.isEmpty?'?': listaNumeros[1].toString(),
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-          CircleAvatar(
-            backgroundColor: Colors.grey[900],
-            radius: 25,
-            child: Text(listaNumeros.isEmpty?'?': listaNumeros[2].toString(),
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-          CircleAvatar(
-            backgroundColor: Colors.grey[900],
-            radius: 25,
-            child: Text(listaNumeros.isEmpty?'?': listaNumeros[3].toString(),
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-          CircleAvatar(
-            backgroundColor: Colors.grey[900],
-            radius: 25,
-            child: Text(listaNumeros.isEmpty?'?': listaNumeros[4].toString(),
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-          CircleAvatar(
-            backgroundColor: Colors.grey[900],
-            radius: 25,
-            child: Text(listaNumeros.isEmpty?'?': listaNumeros[5].toString(),
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
+          ),          
+          
         ],
       ),
     );
